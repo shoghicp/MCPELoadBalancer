@@ -1,4 +1,12 @@
-<?
+<?php
+
+if(function_exists("posix_getuid") and posix_getuid() != 0)
+{
+    echo "Please run as root\n";
+    exit(1);
+}
+
+
 exec("/sbin/sysctl net.ipv4.ip_forward=1 ; /sbin/iptables --new POCKETMINELB ; /sbin/iptables --insert INPUT --proto udp --match state --state NEW --dport 19132 -j POCKETMINELB ; /sbin/iptables --insert POCKETMINELB --jump LOG --log-prefix=\"MCPE_NEW_CONNECTION \" ; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE");
 
 $handle = popen('/usr/bin/tail -f /var/log/kern.log', 'r');
