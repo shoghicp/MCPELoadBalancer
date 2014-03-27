@@ -10,17 +10,14 @@ $Servers_Pool = array(
     "192.168.0.5:19134",
 );
 
-while(true)
-{
+while(true){
     $string = fgets($handle);
 
-    if(strpos($string, 'MCPE_NEW_CONNECTION') !== false)
-    {
+    if(strpos($string, 'MCPE_NEW_CONNECTION') !== false){
         preg_match_all("/SRC=.+?\..+?\..+?\..+?/", $string, $output);
         $SOURCE_IP = str_replace("SRC=", '', $output[0][0]);
-        if(!isset($isEstablished[$SOURCE_IP]))
-        {
-            $RAND_SERVER = $Servers_Pool[array_rand($Servers_Pool)];
+        if(!isset($isEstablished[$SOURCE_IP])){
+            $RAND_SERVER = $Servers_Pool[mt_rand(0, count($Servers_Pool) - 1)];
             //$RAND_IP = explode(':', $Servers_Pool[array_rand($Servers_Pool)])[0];
             //$RAND_PORT = explode(':', $Servers_Pool[array_rand($Servers_Pool)])[1];
 
